@@ -1,6 +1,6 @@
-import css from './AddContact.module.css'
+import css from './ContactForm.module.css'
 
-const AddContact = ({ name, number, handleChange, handleSubmit }) => {
+const ContactForm = ({ name, number, handleChange, handleSubmit }) => {
   return (
     <form className={css.form} onSubmit={handleSubmit}>
       <label>
@@ -16,4 +16,4 @@ const AddContact = ({ name, number, handleChange, handleSubmit }) => {
   );
 };
 
-export default AddContact;
+export default ContactForm;
