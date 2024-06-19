@@ -14,8 +14,6 @@ class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
   handleChange = evt => {
@@ -23,17 +21,14 @@ class App extends Component {
     this.setState({ [name]: value });
   };
 
-  handleSubmit = evt => {
-    evt.preventDefault();
-    const { name, number, contacts } = this.state;
+  handleSubmit = ({ name, number }) => {
+    const { contacts } = this.state;
     const duplicateContact = contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
     if (duplicateContact) {
       alert(`${name} is already in contacts.`);
     } else {
       this.setState(prevState => ({
         contacts: [...prevState.contacts, { name, number, id: nanoid() }],
-        name: '',
-        number: ''
       }));
     }
   }
@@ -47,30 +42,23 @@ class App extends Component {
     );
   };
 
-
   handleDeleteContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId)
     }));
   };
 
-
   render() {
-    const { name, number, filter } = this.state;
+    const { filter } = this.state;
     const filteredContacts = this.getFilteredContacts();
     return (
       <>
         <Section title='Phonebook'>
-          <ContactForm name={name}
-                      number={number}
-                      handleChange={this.handleChange}
-                      handleSubmit={this.handleSubmit} />
+          <ContactForm handleSubmit={this.handleSubmit} />
         </Section>
         <Section title='Contacts'>
-          <Filter filter={filter}
-                  handleChange={this.handleChange}
-          />
-          <ContactsList contacts={filteredContacts} handleDeleteContact={this.handleDeleteContact}/>
+          <Filter filter={filter} handleChange={this.handleChange} />
+          <ContactsList contacts={filteredContacts} handleDeleteContact={this.handleDeleteContact} />
         </Section>
       </>
     );
